@@ -1,15 +1,6 @@
 var express = require('express');
 var router = express.Router();
-
-var busInfo = {
-                name:"ABC Accounting",
-                phone:"111-111-1111",
-                address:"1 abc st, Maple ON L6Y 4A2",
-                email:"cs@abcacounting.com",
-                fb:"https://www.facebook.com/ABC-Accounting-Inc-847227538796048/",
-                tw:"https://twitter.com/AccountingToday"
-              };
-var pages = ["home","about","clients","services"];
+var info = require ('../utils/info');
 var Customer = require('../models/customers');
 var passport = require('passport');
 var multer  = require('multer');
@@ -26,51 +17,56 @@ var storage = multer.diskStorage({
 /* GET home page. */
 router.get('/', function(req, res, next) {
           res.render("index", { title: 'Home',
-          business:busInfo,
+          business:info.busInfo,
           user: req.user,
-          pages:pages
+          pages:info.pages
     });
 });
 
 // Loads About Page
 router.get('/about', function(req, res, next) {
   res.render("about", { title: 'about',
-  business:busInfo,
+  business:info.busInfo,
   user: req.user,
-  pages:pages
+  pages:info.pages
 });
 });
 // Loads Clients Page
 router.get('/clients', function(req, res, next) {
   res.render("clients", { title: 'clients',
-  business:busInfo,
-  user: req.user,
-  pages:pages
+    business:info.busInfo,
+    user: req.user,
+    pages:info.pages
+  });
+});
+// Loads Clients Page
 
-});
-});
 // Loads profile Page
 router.get('/profile',isLoggedIn, function(req, res, next) {
-  // Customer.findOne()
-      res.render("profile", {
-                              title   : 'My Information',
-                              business:busInfo,
-                              fName   :req.user.firstname,
-                              lName   :req.user.lastname,
-                              phone   :req.user.phone,
-                              email   :req.user.email,
-                              user    :req.user,
-                              pages   :pages
-                            }
+var navpages = info.pages;
+  if(req.user.role=='admin'){
+    navpages = info.AdPages;
+  }
+      res.render("profile",
+                  {
+                      title   : 'My Information',
+                      business:info.busInfo,
+                      fName   :req.user.firstname,
+                      lName   :req.user.lastname,
+                      phone   :req.user.phone,
+                      email   :req.user.email,
+                      user    :req.user,
+                      pages   :navpages
+                    }
                 );
 });
 // Loads services Page
 router.get('/services', function(req, res, next) {
   res.render("services", {
                           title   :'services',
-                          business:busInfo,
+                          business:info.busInfo,
                           user    :req.user,
-                          pages   :pages
+                          pages   :info.pages
 
 });
 });
@@ -87,14 +83,17 @@ router.get('/register', function(req, res, next) {
   {
     res.render("register", {
     title   : 'Register',
-    business:busInfo,
+    business:info.busInfo,
     message :messages,
-    pages   :pages,
+    pages   :info.pages,
     user    :req.user,
     fName   :'',
     lName   :'',
     phone   :'',
-    email   :''
+    email   :'',
+    address :'',
+    city    :'',
+    province:''
   });
 }
 });
@@ -105,9 +104,9 @@ router.get('/profile/:id', function(req, res, next) {
  Customer.findById(id,function(err, user){
    res.render("register", {
    title   : 'Edit Profile',
-   business:busInfo,
+   business:info.busInfo,
    message :'',
-   pages   :pages,
+   pages   :info.pages,
    user    :user,
    id      :user._id,
    fName   :user.firstname,
@@ -117,16 +116,16 @@ router.get('/profile/:id', function(req, res, next) {
    });
  });
 });
-// Loads services Page
+// Login form Page
 router.get('/login', function(req, res, next) {
   var messages = req.session.messages || []; //flash.message;
   // clear the session messages
   req.session.messages = [];
   res.render("login", {
                         title   : 'Login',
-                        business:busInfo,
+                        business:info.busInfo,
                         message :messages,
-                        pages   :pages,
+                        pages   :info.pages,
                         user    :req.user
                       }
             );
@@ -166,19 +165,20 @@ router.get('/error', function(req, res, next) {
 /******************** POST Requests of all views ***********************/
 /* POST login */
 router.post('/login',
-passport.authenticate('local',
-                              {
-                                successRedirect: '/',
-                                failureRedirect: '/login',
-                                failureMessage: 'Invalid Login',
-                                failureFlash: true
-                              }
-),
-function(req, res, next) {
-  res.redirect('/');
-}
-);
-
+  passport.authenticate
+    ('local',{
+              failureRedirect: '/login',
+              failureMessage: 'Invalid Username and/or Password',
+              failureFlash: true
+            }),
+      function(req,res){
+      if(req.user.role=='admin'){
+        res.redirect('/admin')
+      }
+      else{
+        res.redirect('/profile');
+      }
+    });
 
 /* POST   register form submission - Processes input from register form neqw user */
 router.post('/register', function(req, res, next) {

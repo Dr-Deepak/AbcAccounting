@@ -6,20 +6,32 @@
     <div class="form-group">
       <form method="post" id ="registerForm">
         <div class="form-group">
-          <label for="firstname" class="col-sm-2 control-label">Firstname: </label>
+          <label for="firstname" class="col-sm-2 control-label">Firstname:* </label>
           <input name="firstname" style="color: black;" id="firstname" required value="<%= fName%>" type="text"/>
         </div>
         <div class="form-group">
-          <label for="lastname" class="col-sm-2 control-label">Lastname: </label>
+          <label for="lastname" class="col-sm-2 control-label">Lastname:* </label>
           <input name="lastname" style="color: black;" id="lastname" required value="<%= lName%>" type="text" />
         </div>
         <div class="form-group">
-          <label for="phone" class="col-sm-2 control-label">Phone : </label>
-          <input name="phone" id="phone"  required placeholder="123-123-1234" value="<%= phone%>"/>
+          <label for="phone" class="col-sm-2 control-label">Phone:* </label>
+          <input name="phone" id="phone" required placeholder="123-123-1234" value="<%= phone%>"/>
         </div>
         <div class="form-group">
-          <label for="email" class="col-sm-2 control-label">Email : </label>
-          <input name="email" id="email"  required value="<%= email%>"/>
+          <label for="email" class="col-sm-2 control-label">Email:* </label>
+          <input name="email" id="email" required value="<%= email%>"/>
+        </div>
+        <div class="form-group">
+          <label for="address" class="col-sm-2 control-label">Address:* </label>
+          <input name="address" id="address" required value="<%= address%>"/>
+        </div>
+        <div class="form-group">
+            <label for="city" class="col-sm-2 control-label">City:* </label>
+            <input name="city" id="city" required value="<%= city%>"/>
+        </div>
+        <div class="form-group">
+            <label for="province" class="col-sm-2 control-label">Province:* </label>
+            <input name="province" id="province" required value="<%= province%>"/>
         </div>
         <% if(user){%>
         <div class="form-group">

@@ -1,0 +1,162 @@
+<% include ../partials/header.ejs %>
+<main ng-controller="personInfo"
+      ng-init="init('<%= JSON.stringify(relTeam) %>','<%= JSON.stringify(teams) %>','<%= JSON.stringify(alts) %>')" >
+  <h1><%= messege %></h1><br/>
+<form name="addPersonForm"class="form-horizontal" action="/viewPeople/<%= url%>" method="post">
+
+  <fieldset class="form-group row">
+    <label for="name" class="col-md-4 col-form-label">name*</label>
+    <div class="col-md-6">
+      <input id="name" type="text" name="name" placeholder="Enter full name" required
+        value="<%= perName %>" class="form-control formSpacer" title="Enter person's full name" />
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group row">
+    <label for="email" class="col-md-4 col-form-label">email*</label>
+    <div class="col-md-6">
+      <input id="email" type="email" name="email" placeholder="Enter person's email" required
+        value="<%= perEmail %>" class="form-control formSpacer" title="Enter person`s name" />
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group row">
+    <label for="location" class="col-md-4 col-form-label">location</label>
+    <div class="col-md-6">
+      <input id="location" type="text" name="location" placeholder="Enter person's location"
+        value="<%= perLoc %>" class="form-control formSpacer" title="Enter person's location"/>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group row">
+    <label for="role" class="col-md-4 col-form-label">role*</label>
+    <div class="col-md-6">
+      <input id="role" list = "roles" type="text" name="role" placeholder="Enter person's role"
+        value="<%= perRole %>" class="form-control formSpacer" title="Enter person's role" required/>
+        <datalist id="roles">
+          <%for (var i =0;i< roles.length;i++) {%>
+            <option value="<%= roles[i].DISTINCT%>"></option>
+          <%}%>
+        </datalist>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group row">
+    <label for="name" class="col-md-4 col-form-label">employee type</label>
+    <div class="col-md-6">
+    <input list="Type" type="text" name="employtype" placeholder="Enter employee type description"
+       value="<%= empType %>" class="form-control formSpacer" title="Enter employee type description"/>
+     <datalist id ='Type'>
+       <option value="Full-time">Full time</option>
+       <option value="Part-time">Part time</option>
+       <option value="Contractor">Contractor</option>
+       <option value="Student(co-op)">Student(co-op)</option>
+     </datalist>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group row">
+    <label for="group" class="col-md-4 col-form-label">group</label>
+    <div class="col-md-6">
+      <input id="group" type="text" name="group" placeholder="Enter person's group"
+        value="<%= perGrp %>" class="form-control formSpacer" title="Enter person's group"/>
+    </div>
+  </fieldset>
+
+  <fieldset class="form-group row">
+    <label for="alt" class="col-md-4 col-form-label">agile leadership team</label>
+    <div class="col-md-6">
+      <select id="alt"  name="alt" class="form-control formSpacer" title="Select Agile Leadership Team">
+        <option selected='selected' value=''disabled>Select related agile leadership team</option>
+        <% for(var i=0;i< alts.length;i++) {%>
+          <% if(perAlt == alts[i].name) {%>
+            <option selected='selected' value="<%= alts[i].name%>"><%= alts[i].name%></option>
+          <%}else{%>
+            <option value="<%= alts[i].name%>"><%= alts[i].name %></option>
+        <%}}%>
+      </select>
+    </div>
+  </fieldset>
+
+  <!-- <fieldset class="form-group row">
+    <label class="col-md-4 col-form-label">Member of Teams</label>
+    <div class="col-md-6">
+      <div>
+        <div class="teamProjectTable_head">
+            <label class="tableInput_th">Team ID </label>
+            <label class="tableInput_th">Team Name </label>
+            <label class="tableInput_th">Agile Leadership Team</label>
+        </div>
+        <div class="teamProjectTable">
+            <div class="teamProjectTable_row" ng-repeat="pj in perTm track by $index">
+               <input class="tableInput" id="perid{{$index}}"   name="perid{{$index}}" ng-model="perTm[$index].id" readonly required/>
+               <input class="tableInput" id="pername{{$index}}" name="pername{{$index }}" ng-model="perTm[$index].name" readonly/>
+               <input class="tableInput" id="peralt{{ $index}}" name="peralt{{ $index }}" ng-model="perTm[$index].alt" readonly/>
+            </div>
+        </div>
+      </div>
+      <div>
+        <button type="button" data-toggle="modal" data-target="#addTeam" >
+        <i class="fa fa-plus-square" aria-hidden="true"></i>Add Team</button>
+      </div>
+    </div>
+  </fieldset> -->
+
+  <fieldset class="form-group row">
+    <div class="col-md-6"></div>
+    <div class="col-md-6">
+      <input type="submit" class="btn btn-default formButton" value="Submit"/>
+    </div>
+  </fieldset>
+</form>
+
+
+
+  <!-- Add record in Modal -->
+<div id="addTeam" class="modal fade" role="dialog" >
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Add existing team </h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-group" action="" method="get">
+          <fieldset class="form-group row">
+            <label for="misid" class="col-md-4 col-form-label">Team ID</label>
+            <div class="col-md-6">
+               <input id="id" name ="id" list="teamlist" placeholder="Enter or select projects"
+                      class="form-control formSpacer col-sm-2"  ng-model="curid"
+                      ng-change="populateProject(curid)" title="Enter team id" required/>
+                <datalist id="teamlist">
+                  <option ng-repeat="ms in teams" value="{{ ms.id }}"/>
+                </datalist>
+            </div>
+          </fieldset>
+          <fieldset class="form-group row">
+            <label class="col-md-4 col-form-label">Team Name</label>
+            <div class="col-md-6">
+               <input type="text" ng-model="curname" class="form-control formSpacer col-sm-2"
+                      title = "Team`s Name"readonly/>
+            </div>
+          </fieldset>
+
+          <fieldset class="form-group row">
+            <label for="alt" class="col-md-4 col-form-label">Agile Leadership Team</label>
+            <div class="col-md-6">
+               <input type="text" ng-model="curalt" class="form-control formSpacer col-sm-2"
+                       title="Agile Leadership Team" readonly=/>
+            </div>
+          </fieldset>
+          <fieldset class="form-group row">
+            <div class="col-md-6"></div>
+            <div class="col-md-2"></div>
+              <input id="addbtn" type="submit" class="btn btn-default col-md-2" ng-click="saveModal()" value="Add"/>
+              <button type="button" data-dismiss="modal" class="btn btn-default col-md-2" ng-click="close()">Cancel</button>
+          </fieldset>
+        </form>
+      </div> <!-- ending model-body -->
+    </div><!-- ending model-content -->
+  </div><!-- ending model-dialog -->
+</div><!-- ending model--></main>
+<% include ../partials/footer.ejs %>

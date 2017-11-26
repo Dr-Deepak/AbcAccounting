@@ -4,21 +4,18 @@ var favicon         = require('serve-favicon');
 var logger          = require('morgan');
 var cookieParser    = require('cookie-parser');
 var bodyParser      = require('body-parser');
-var routes          = require('./routes/index');
-var users           = require('./routes/users');
+var routes          = require('./routes/routesIndex');
 var mongoose        = require('mongoose');
 var Customer        = require('./models/customers');
 var config          = require('./config/globalVars');
 var session         = require('express-session');
 var passport        = require('passport');
-
 var localStrategy   = require('passport-local').Strategy;
 var facebookStrategy= require('passport-facebook');
 var flash           = require('connect-flash');
 var app = express();
 
 mongoose.connect(config.db);
-
 app.use(flash());
 
 // enable sessions
@@ -46,7 +43,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/users', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

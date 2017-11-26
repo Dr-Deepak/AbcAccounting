@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Home | <%= business.name%></title>
+    <title><%= title %> | <%= business.name%></title>
     <!-- CSS-->
     <link type = "text/css" rel='stylesheet' href='/stylesheets/bootstrap.min.css'/>
     <link type = "text/css" rel='stylesheet' href='/stylesheets/bootstrap-theme.min.css'/>
-    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="/stylesheets/style.css" media="screen" title="no title"/>
-    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"> -->
-    <script src = "http://code.angularjs.org/1.2.0/angular.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+    <script src="/javascripts/ENTRY.js"></script>
   </head>
   <body>
     <header>
@@ -20,8 +23,14 @@
         <nav class="nav">
           <ul class="nav__list">
               <% for(var i=0;i<pages.length;i++) {%>
-              <% var link='/'; if(i>0){ link = pages[i];}  %>
-            <li class="nav__links"><a href ="<%= link%>"><%= pages[i]%></a></li>
+            <li class="nav__links">
+                <% var link='/'+pages[i];
+                   if(user){
+                      if(user.role=='admin'){
+                        link='/admin/'+pages[i];
+                      }
+                    }  %>
+              <a href ="<%= link%>"><%= pages[i]%></a></li>
             <% } %>
             <% if (!user) { %>
                <li class="nav__links"><a href="/register">Register</a></li>
