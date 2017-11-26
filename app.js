@@ -13,11 +13,12 @@ var passport        = require('passport');
 var localStrategy   = require('passport-local').Strategy;
 var facebookStrategy= require('passport-facebook');
 var flash           = require('connect-flash');
+var helmet          =require('helmet');
 var app = express();
 
 mongoose.connect(config.db);
 app.use(flash());
-
+app.use(helmet());
 // enable sessions
 app.use(session({
   secret: config.secret,
