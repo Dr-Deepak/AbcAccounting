@@ -8,5 +8,5 @@ module.exports = {
             tw:"https://twitter.com/AccountingToday"
           },
   pages: ["home","about","clients","services"],
-  AdPages:["personal","corporations"]
+  AdPages:["people","business"]
 }

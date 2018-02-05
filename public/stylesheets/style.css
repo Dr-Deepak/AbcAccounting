@@ -15,22 +15,25 @@ header {
   background-color:hsla(112, 264%, 56%, 0.42);
   top: 0px;
   left: -0.0px;
+  z-index: 1;
 }
 main {
   background-color: hsla(105, 61%, 36%, 0.68);
-      margin: 68px 10% 0 10%;
-     padding: 2% 5% 0% 5%;
-       width: 80%;
-      margin: 68px auto;
-      height: calc(100vh - 113px);
-       color: #bbe4b4;
+    margin: 0px 0% 0px 10%;
+    padding: 2%  4% 0% 4%;
+    width: 80%;
+    min-height: 84vh;
+    margin: 67px 10%;
+    color: #bbe4b4;
+    overflow:overlay;
+    position: relative;
+
 }
 
 .tdForm {
   display:inline-flex;;
   width: 75%;
   margin: 0 auto;
-
 }
 
 footer {
@@ -44,6 +47,10 @@ footer {
   bottom: 0px;
   left:0px;
   height: 45px;
+  z-index: 1
+}
+form{
+  margin: 0 0 0 25%;
 }
 .container {
   max-width: 960px;
@@ -90,8 +97,7 @@ footer {
   width: 100%;
   height: auto;
   margin: 0;
-  display: flex;
-  z-index: 100;
+
 }
 a{color:#51fff7;}
 p{
@@ -104,6 +110,10 @@ input{
 
 footer .fa{
   color:#FFF6A1;
+}
+legend{
+  margin: 0;
+
 }
 .fa{
   color: red;
@@ -183,17 +193,17 @@ footer .fa{
   float: right;
 }
 .tableInput_td{
-  
-  padding:0;
-  margin: 0;
+
+  padding: 0 46px 0 13px;
+margin: 0 8px 0 0px;
 }
 .tableInput{
+  display: inline-flex;
   padding:0 0 0 5px;
   margin: 0;
 }
 .tableInput_th{
-  margin: 0;
-  padding: 0 0 0 10px;
+
 }
 .teamProjectTable{
   /*height: 105px;*/
@@ -204,4 +214,29 @@ footer .fa{
   display: flex;
   margin: 0;
   padding: 0 0 0 0;
+}
+.formButtons{
+  float: right;
+    margin: 0;
+    padding: 0;
+}
+.modalRow{
+  margin:0;
+  padding:0;
+}
+.modalInput{
+  padding: 0 60px 0 10px;
+  margin:0;
+  background-color: #f7f7ed;
+}
+.modalLabel{
+  padding: 15px 0 0px 0;
+}
+.modalColor{
+      background-color: #e6e7cd;
+      color:black;
+}
+.modalButtons{
+  float:right;
+  margin: 5px 32px 0 0;
 }

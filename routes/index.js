@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var info = require ('../utils/info');
-var Customer = require('../models/customers');
+var Person   = require('../models/person');
 var passport = require('passport');
 var multer  = require('multer');
 var storage = multer.diskStorage({
@@ -101,7 +101,7 @@ router.get('/register', function(req, res, next) {
 //loads the register page with prepopulated text fields
 router.get('/profile/:id', function(req, res, next) {
  var id = req.params.id;
- Customer.findById(id,function(err, user){
+ Person.findById(id,function(err, user){
    res.render("register", {
    title   : 'Edit Profile',
    business:info.busInfo,
@@ -172,7 +172,7 @@ router.post('/login',
               failureFlash: true
             }),
       function(req,res){
-      if(req.user.role=='admin'){
+      if(req.user.position=='admin'){
         res.redirect('/admin')
       }
       else{
@@ -183,30 +183,29 @@ router.post('/login',
 /* POST   register form submission - Processes input from register form neqw user */
 router.post('/register', function(req, res, next) {
   //           // create a new account
-            Customer.findOne(
-              {username: req.body.username},
-              function(err,user)
-      {
+            Person.findOne({ email: req.body.email},function(err,user){
                   if(err){
                     console.log(err);
                   }
                   else if (user != null){
-                    req.session.messages='Already registered, please Login';
+                    req.session.messages='User already registered, please Login';
                     console.log(user);
                     res.redirect('/register');
                   }	else if(user== null)
                   {// user do not exists in our db
-                    Customer.register(
-                      new Customer({
+                    Person.register(
+                      new Person({
                                     firstname: req.body.firstname,
                                     lastname : req.body.lastname,
                                     phone    : req.body.phone,
                                     email    : req.body.email,
                                     username : req.body.username,
-                                    created  : Date.now()
-                                  }),	req.body.password,
-                    function(err, customer){
-                      if (err) { res.redirect('/error'); }
+                                    created  : Date.now(),
+
+                                  }),req.body.password,
+                    function(err, person){
+                      if (err) {
+                        console.log(err); res.redirect('/error'); }
                       else{ res.redirect('/login'); }
                     }
                   );
@@ -217,7 +216,7 @@ router.post('/register', function(req, res, next) {
 
 router.post('/profile/:id', function(req, res, next) {
   var id = req.params.id;
-  var customer = new Customer({
+  var person = new Person({
     _id      :id,
     firstname: req.body.firstname,
     lastname : req.body.lastname,
@@ -225,7 +224,7 @@ router.post('/profile/:id', function(req, res, next) {
     email    : req.body.email
     });
   //try to update
-    Customer.update({_id: id},customer,
+    Person.update({_id: id},person,
     function(err) {
                     if(err){
                       console.log(err);
@@ -239,7 +238,7 @@ router.post('/profile/:id', function(req, res, next) {
 
 router.post('/updateUser:_id',isLoggedIn, function(req, res, next) {
   // create a new account
-  Customer.findOne({_id: req.body.id},
+  Person.findOne({_id: req.body.id},
     function(err,user) {
                             if(err){
                               console.log(err);
@@ -252,7 +251,7 @@ router.post('/updateUser:_id',isLoggedIn, function(req, res, next) {
                                               phone    : req.body.phone,
                                               email    : req.body.email
                                       }),
-                              function(err, customer){
+                              function(err, person){
                                 if (err) { res.redirect('/error'); }
                                 else{ res.redirect('/login'); }
                               }

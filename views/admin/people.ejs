@@ -1,0 +1,36 @@
+<% include ../partials/header.ejs %>
+<main>
+	<h1><%= title %></h1>
+	<table class="table-condensed">
+    <thead>
+      <tr>
+				<% for(var i=0; i< th.length;i++) { %>
+        <th><%=th[i]%></th>
+				<%}%>
+      </tr>
+    </thead>
+    <tbody>
+      	<% for(var i=0; i< data.length;i++) { %>
+					<tr>
+            <a href="/<%=title %>/<%=data[i].email %>">
+							<% if(title =="Business"){ %>
+								<td><%=data[i].business %></td>
+								<td><%=data[i].person %></td>
+							<%} else {%>
+              	<td><%= data[i].firstname+' '+data[i].lastname %></td>
+							<% } %>
+              <td><%=data[i].phone %></td>
+    					<td><%=data[i].email %></td>
+							<td><%=data[i].address %></td>
+							<td><%=data[i].city %></td>
+							<td><%=data[i].country %></td>
+            </a>
+          </tr>
+        <% } %>
+    </tbody>
+	</table>
+	<div>
+		<a class="btn btn-success" href="/admin/add<%=title %>">Add</a>
+	</div>
+</main>
+<% include ../partials/footer.ejs %>

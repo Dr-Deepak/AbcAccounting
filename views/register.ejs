@@ -3,49 +3,58 @@
   <p><%= message%></p>
   <h1><%= title%></h1>
   <div class="form">
-    <div class="form-group">
+    <div class="form-inline col-md-6">
       <form method="post" id ="registerForm">
-        <div class="form-group">
-          <label for="firstname" class="col-sm-2 control-label">Firstname:* </label>
-          <input name="firstname" style="color: black;" id="firstname" required value="<%= fName%>" type="text"/>
+        <fieldset>
+          <legend>Personal Information</legend>
+          <div class="form-inline">
+            <label for="firstname" class="col-sm-4 control-label">Firstname:* </label>
+            <input name="firstname" class="form-control"  id="firstname" required value="<%= fName%>" type="text"/>
+          </div>
+          <div class="form-inline">
+            <label for="lastname" class="col-sm-4 control-label">Lastname:* </label>
+            <input name="lastname" class="form-control"  id="lastname" required value="<%= lName%>" type="text" />
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>Contact Information</legend>
+          <div class="form-inline">
+            <label for="phone" class="col-sm-4 control-label">Phone:* </label>
+            <input name="phone" class="form-control" id="phone" required placeholder="123-123-1234" value="<%= phone%>"/>
+          </div>
+          <div class="form-inline">
+            <label for="email" class="col-sm-4 control-label">Email:* </label>
+            <input name="email" class="form-control" id="email" required value="<%= email%>"/>
+          </div>
+          <div class="form-inline">
+            <!-- <input id="autocomplete"class="form-control modalInput" ng-model="address" placeholder="Enter business address"
+               onFocus="geolocate()" type="text" title="Enter business physical address" required/> -->
+            <label for="address" class="col-sm-4 control-label">Address:* </label>
+            <input name="address" id="address" class="form-control"  required value="<%= address%>"/>
+          </div>
+
+        <div class="form-inline">
+            <label for="city" class="col-sm-4 control-label">City:* </label>
+            <input name="city" id="city" class="form-control" required value="<%= city%>"/>
         </div>
-        <div class="form-group">
-          <label for="lastname" class="col-sm-2 control-label">Lastname:* </label>
-          <input name="lastname" style="color: black;" id="lastname" required value="<%= lName%>" type="text" />
+        <div class="form-inline">
+            <label for="province" class="col-sm-4 control-label">Province:* </label>
+            <input name="province" id="province" class="form-control" required value="<%= province%>"/>
         </div>
-        <div class="form-group">
-          <label for="phone" class="col-sm-2 control-label">Phone:* </label>
-          <input name="phone" id="phone" required placeholder="123-123-1234" value="<%= phone%>"/>
-        </div>
-        <div class="form-group">
-          <label for="email" class="col-sm-2 control-label">Email:* </label>
-          <input name="email" id="email" required value="<%= email%>"/>
-        </div>
-        <div class="form-group">
-          <label for="address" class="col-sm-2 control-label">Address:* </label>
-          <input name="address" id="address" required value="<%= address%>"/>
-        </div>
-        <div class="form-group">
-            <label for="city" class="col-sm-2 control-label">City:* </label>
-            <input name="city" id="city" required value="<%= city%>"/>
-        </div>
-        <div class="form-group">
-            <label for="province" class="col-sm-2 control-label">Province:* </label>
-            <input name="province" id="province" required value="<%= province%>"/>
-        </div>
+        </fieldset>
         <% if(user){%>
-        <div class="form-group">
+        <div class="form-inline">
           <input type="hidden" name="id" value="<%= id%>">
-          <input type="submit" class="btn btn-success col-sm-offset-2" value = "Save"/>
+          <input type="submit" class="btn btn-success col-sm-2" value = "Save"/>
         </div>
         <%} else{%>
-        <div class="form-group">
-          <label for="username" class="col-sm-2 control-label">Username: </label>
-          <input name="username" style="color: black;" id="username" required />
+        <div class="form-inline">
+          <label for="username" class="col-sm-4 control-label">Username: </label>
+          <input name="username" class="form-control" style="color: black;" id="username" required />
         </div>
-        <div class="form-group">
-          <label for="password" class="col-sm-2 control-label">Password: </label>
-          <input name="password" style="color: black;" id="password" type="password" required />
+        <div class="form-inline">
+          <label for="password" class="col-sm-4 control-label">Password: </label>
+          <input name="password" class="form-control" style="color: black;" id="password" type="password" required  />
         </div>
         <div class="form-group">
           <input type="submit" class="btn btn-success col-sm-offset-2" value = "Register"/>

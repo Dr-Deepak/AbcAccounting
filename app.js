@@ -6,7 +6,8 @@ var cookieParser    = require('cookie-parser');
 var bodyParser      = require('body-parser');
 var routes          = require('./routes/routesIndex');
 var mongoose        = require('mongoose');
-var Customer        = require('./models/customers');
+var Person          = require('./models/person');
+var Business        = require('./models/business');
 var config          = require('./config/globalVars');
 var session         = require('express-session');
 var passport        = require('passport');
@@ -15,8 +16,8 @@ var facebookStrategy= require('passport-facebook');
 var flash           = require('connect-flash');
 var helmet          =require('helmet');
 var app = express();
-
-mongoose.connect(config.db);
+mongoose.Promise = require('bluebird');;
+mongoose.connect(config.db,{useMongoClient:true});
 app.use(flash());
 app.use(helmet());
 // enable sessions
@@ -28,7 +29,6 @@ app.use(session({
 
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -42,7 +42,6 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use('/', routes);
 
 // catch 404 and forward to error handler
@@ -74,12 +73,15 @@ app.use(function(err, req, res, next) {
     error: {}
   });
 });
-passport.use(Customer.createStrategy());
-// passport.use(Customer.createStrategy());
+passport.use(Person.createStrategy());
+// passport.use(Business.createStrategy());
+// passport.use(Person.createStrategy());
 // read and write the user to / from the session
-passport.serializeUser(Customer.serializeUser());
-passport.deserializeUser(Customer.deserializeUser());
+passport.serializeUser(Person.serializeUser());
+passport.deserializeUser(Person.deserializeUser());
 
+passport.serializeUser(Business.serializeUser());
+passport.deserializeUser(Business.deserializeUser());
 //configure facebook authuntication
 passport.use(
   new facebookStrategy(
@@ -89,7 +91,7 @@ passport.use(
     },
     function(accessToken, refreshToken, profile, cb)
     {
-      Customer.findOne({oathId: profile.id },function(err,user)
+      Person.findOne({oathId: profile.id },function(err,user)
         {
           if(err){
             console.log(err);
@@ -102,7 +104,7 @@ passport.use(
               }
               else
               {// create a new user
-                  user = new Customer({
+                  user = new Person({
                                         oathId  : profile.id,
                                         username: profile.displayName,
                                          created: Date.now()

@@ -26,7 +26,7 @@
             <li class="nav__links">
                 <% var link='/'+pages[i];
                    if(user){
-                      if(user.role=='admin'){
+                      if(user.position=='admin'){
                         link='/admin/'+pages[i];
                       }
                     }  %>
@@ -36,8 +36,10 @@
                <li class="nav__links"><a href="/register">Register</a></li>
                <li class="nav__links"><a href="/login">Login</a></li>
             </ul>
-            <% } else { %>
+            <% } else if(user.position!=='admin') { %>
                <li class="nav__links"><a href="/profile">My Profile</a></li>
+               <li class="nav__links"><a href="/logout">Logout</a></li>
+               <%}else{%>
                <li class="nav__links"><a href="/logout">Logout</a></li>
            <% }%>
         </ul>

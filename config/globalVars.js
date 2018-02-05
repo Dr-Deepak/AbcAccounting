@@ -15,6 +15,7 @@ module.exports = {
 	/** for mlab server*/
 	module.exports = {
 	db: 'mongodb://deepak:2481053@ds032319.mlab.com:32319/comp2068',
+	options: { promiseLibrary: require('bluebird') },
 	secret:'This is awsome',
 	ids:{
 		facebook: {
