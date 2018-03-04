@@ -3,24 +3,23 @@
   <h1>Add <%= title %></h1>
 
     <form class= "col-md-6" action="/admin/add<%= title %>" method="post">
-
         <fieldset class="form-group">
           <% if (title=='Business'){%>
-           <legend> Business information </legend>
+           <legend> Business Information </legend>
             <label for="business" class="col-md-4 modalLabel">Business Name</label>
             <input id ="business" name="business" placeholder="Enter business name here" class="form-control" title="Enter business name" required/>
             <label for="person" class ="col-md-4 modalLabel">Contact Person</label>
             <input id ="person" name ="person" placeholder="Enter contact person's name here" class="form-control" title="Enter contact name here" required/>
             <%} else {%>
-             <legend> Personal information </legend>
+             <legend> Personal Information </legend>
               <label for="fullname" class="col-md-4 modalLabel" >Full Name</label>
-              <input id ="fullname" ng-model="fullname"  placeholder="Enter full name name here" class="form-control" title="Enter full name here" required/>
-              <input name ="firstname" value="{{ firstname }}" />
-              <input name ="lastname" value="{{ lastname }}" />
+              <input id ="fullname" name="fullname" ng-model="fullname" onloadeddata="splitFul()" placeholder="Enter full name name here" class="form-control" title="Enter full name here" required/>
+              <!-- <input name ="firstname" value="{{ firstname }}" type="hidden"/>
+              <input name ="lastname" value="{{ lastname }}" type="hidden"/> -->
             <% } %>
         </fieldset>
         <fieldset class="form-group">
-          <legend> contact information </legend>
+          <legend>Contact Information </legend>
             <label for="phone" class="col-md-4 modalLabel">phone</label>
             <input id ="phone" name ="phone" placeholder="000-000-0000" class="form-control modalInput" ng-model="phone" title="Enter phone number here" type="tel" required/>
             <label for="email" class="col-md-4 modalLabel">email</label>
@@ -30,12 +29,11 @@
         </fieldset>
         <fieldset class="formButtons">
           <!-- <div class="col-sm-2"> </div> -->
-            <input type="button" class="btn btn-danger" value="Clear All"/>
+            <input type="button" class="btn btn-danger" value="Reset"/>
             <input type="submit" class="btn btn-success" value="Submit"/>
         </fieldset>
     </form>
     <script src="/javascripts/googleAddress.js"></script>
-
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAb0RUvcqrU7YHVaSAAkq4D_ITSSS9-sVE&libraries=places&callback=initAutocomplete" async defer></script>
 </main>
 <% include ../partials/footer.ejs %>

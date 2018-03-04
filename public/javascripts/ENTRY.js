@@ -10,6 +10,7 @@ app.controller('perInfo',['$scope','$http', function($scope, $http) {
   $scope.firstname= fullname[0],
   $scope.lastname =fullname[1];
 }
+
   var Counter = 0;
 
   var addLine=function(){ $scope.perTm.push(

@@ -22,6 +22,9 @@ router.get('/', function(req, res, next) {
           pages:info.pages
     });
 });
+router.get('/Home', function(req, res, next) {
+        res.redirect('/');
+});
 
 // Loads About Page
 router.get('/about', function(req, res, next) {
@@ -191,17 +194,23 @@ router.post('/register', function(req, res, next) {
                     req.session.messages='User already registered, please Login';
                     console.log(user);
                     res.redirect('/register');
-                  }	else if(user== null)
+                  }
+                  else if(user== null)
                   {// user do not exists in our db
                     Person.register(
                       new Person({
-                                    firstname: req.body.firstname,
-                                    lastname : req.body.lastname,
+                                    fullname: req.body.fullname,
+                                    // lastname : req.body.lastname,
                                     phone    : req.body.phone,
+                                    street_number:req.body.street_number,
                                     email    : req.body.email,
+                                    street :req.body.street,
+                                    city:req.body.city,
+                                    province:req.body.province,
+                                    country:req.body.country,
+                                    postal:req.body.postal,
                                     username : req.body.username,
                                     created  : Date.now(),
-
                                   }),req.body.password,
                     function(err, person){
                       if (err) {

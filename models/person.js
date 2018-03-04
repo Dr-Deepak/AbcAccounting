@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 var plm = require('passport-local-mongoose');
 var PersonSchema = new mongoose.Schema
 ({
-   firstname: {type: String, required: 'firstname is required'},
-    lastname: {type: String, required: 'lastname is required'},
+   fullname: {type: String, required: 'name is required'},
+    // lastname: {type: String, required: 'lastname is required'},
        phone: {type: String, required: 'phone is required'},
     position: {type: String,  default: 'user' },
        email: {type: String, required: 'phone is required'},
